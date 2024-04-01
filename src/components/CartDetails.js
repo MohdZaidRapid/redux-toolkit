@@ -35,7 +35,81 @@ const CartDetails = () => {
                 </tbody>
               </table>
             ) : (
-              ""
+              <table className="table cart-table mb-0 table-responsive-sm">
+                <thead>
+                  <tr>
+                    <th>Action</th>
+                    <th>Products</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th className="text-right">
+                      <span id="amount" className="amount">
+                        Total Amount
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {arr.map((data, index) => {
+                    return (
+                      <>
+                        <tr>
+                          <td>
+                            <button className="prdct-delete">
+                              <i className="fa fa-trash-alt mr-2"></i>
+                            </button>
+                          </td>
+                          <td>
+                            <div className="product-img">
+                              <img src="/logo192.png" alt="" />
+                            </div>
+                          </td>
+                          <td>
+                            <div className="product-name">
+                              <p>punjabi</p>
+                            </div>
+                          </td>
+                          <td>300</td>
+                          <td>
+                            <div className="prdct-qty-container">
+                              <button className="prdct-qty-btn" type="button">
+                                <i className="fa fa-minus"></i>
+                              </button>
+                              <input
+                                type="text"
+                                className="qty-input-box"
+                                value={1}
+                                name=""
+                                id=""
+                                disabled
+                              />
+                              <button className="prdct-qty-btn" type="button">
+                                <i className="fa fa-plus"></i>
+                              </button>
+                            </div>
+                          </td>
+                          <td className="text-right">400</td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>&nbsp;</th>
+                    <th colSpan={3}>&nbsp;</th>
+                    <th>
+                      Items In Cart <span className="ml-2 mr-2">:</span>
+                      <span className="text-danger">4</span>
+                    </th>
+                    <th className="text-right">
+                      Total Price <span className="ml-2 mr-2">:</span>
+                      <span className="text-danger">4</span>
+                    </th>
+                  </tr>
+                </tfoot>
+              </table>
             )}
           </div>
         </div>
