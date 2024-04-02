@@ -1,8 +1,11 @@
 import React from "react";
 import "./cartstyle.css";
+import { useSelector } from "react-redux";
 
 const CartDetails = () => {
   const arr = [0, 1];
+
+  const { carts } = useSelector((state) => state.allCart);
   return (
     <div className="row justify-content-center m-0">
       <div className="col-md-8 mt-5 mb-5 cardsdetails">
@@ -10,7 +13,7 @@ const CartDetails = () => {
           <div className="card-header bg-dark p-3">
             <div className="card-header-flex">
               <h5 className="text-white m-0">Cart Calculations(1)</h5>
-              {arr.length > 0 ? (
+              {carts.length > 0 ? (
                 <button className="btn btn-danger mt-0 btn-sm">
                   <i className="fa fa-trash-alt mr-2"></i>
                   <span>EmptyCart</span>
@@ -21,7 +24,7 @@ const CartDetails = () => {
             </div>
           </div>
           <div className="card-body p-0">
-            {arr.length === 0 ? (
+            {carts.length === 0 ? (
               <table className="table cart-table mb-0">
                 <tbody>
                   <tr>
@@ -51,7 +54,7 @@ const CartDetails = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {arr.map((data, index) => {
+                  {carts.map((data, index) => {
                     return (
                       <>
                         <tr>
@@ -62,15 +65,15 @@ const CartDetails = () => {
                           </td>
                           <td>
                             <div className="product-img">
-                              <img src="/logo192.png" alt="" />
+                              <img src={data.imgdata} alt="" />
                             </div>
                           </td>
                           <td>
                             <div className="product-name">
-                              <p>punjabi</p>
+                              <p>{data.dish}</p>
                             </div>
                           </td>
-                          <td>300</td>
+                          <td>{data.price}</td>
                           <td>
                             <div className="prdct-qty-container">
                               <button className="prdct-qty-btn" type="button">
@@ -79,7 +82,7 @@ const CartDetails = () => {
                               <input
                                 type="text"
                                 className="qty-input-box"
-                                value={1}
+                                value={data.qty}
                                 name=""
                                 id=""
                                 disabled
