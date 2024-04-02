@@ -11,7 +11,17 @@ const cartSlice = createSlice({
   initialState: initialState,
   reducers: {
     addTocart: (state, action) => {
-      state.carts = [...state.carts, action.payload];
+      const ItemIndex = state.carts.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      console.log(ItemIndex);
+
+      if (ItemIndex >= 0) {
+        state.carts[ItemIndex].qnty += 1;
+      } else {
+        const temp = { ...action.payload, qnty: 1 };
+        state.carts = [...state.carts, temp];
+      }
     },
   },
 });

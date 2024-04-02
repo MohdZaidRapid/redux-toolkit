@@ -20,7 +20,7 @@ const Headers = () => {
                 className="p1 fa-stack fa-2x has-badge"
                 data-count={carts.length}
               >
-                <i class="fa-solid fa-cart-shopping"></i>
+                <i className="fa-solid fa-cart-shopping"></i>
               </span>
             </div>
           </NavLink>
