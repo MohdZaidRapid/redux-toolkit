@@ -23,9 +23,24 @@ const cartSlice = createSlice({
         state.carts = [...state.carts, temp];
       }
     },
+
+    // remove particular items
+    removeToCart: (state, action) => {
+      const data = state.carts.filter((ele) => ele.id !== action.payload);
+      state.carts = data;
+    },
+
+    removeSingleItems: (state, action) => {
+      const ItemIndex_dec = state.carts.findIndex(
+        (item) => item.id === action.payload.id
+      );
+      if (state.carts[ItemIndex_dec].qnty >= 1) {
+        state.carts[ItemIndex_dec].qnty -= 1;
+      }
+    },
   },
 });
 
-export const { addTocart } = cartSlice.actions;
+export const { addTocart, removeToCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./cartstyle.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addTocart } from "../redux/features/cartSlice";
+import { addTocart, removeToCart } from "../redux/features/cartSlice";
 
 const CartDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
@@ -13,6 +13,12 @@ const CartDetails = () => {
   const handleIncrement = (e) => {
     dispatch(addTocart(e));
   };
+
+  // remove to singlecart
+  const handleDecrement = (id) => {
+    dispatch(removeToCart(id));
+  };
+
   return (
     <div className="row justify-content-center m-0">
       <div className="col-md-8 mt-5 mb-5 cardsdetails">
@@ -68,7 +74,10 @@ const CartDetails = () => {
                       <>
                         <tr>
                           <td>
-                            <button className="prdct-delete">
+                            <button
+                              className="prdct-delete"
+                              onClick={() => handleDecrement(data.id)}
+                            >
                               <i className="fa fa-trash-alt mr-2"></i>
                             </button>
                           </td>
