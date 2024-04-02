@@ -82,7 +82,7 @@ const CartDetails = () => {
                               <input
                                 type="text"
                                 className="qty-input-box"
-                                value={data.qty}
+                                value={data.qnty}
                                 name=""
                                 id=""
                                 disabled
