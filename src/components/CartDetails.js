@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./cartstyle.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTocart,
   removeToCart,
   removeSingleItems,
+  emptyCartItem,
 } from "../redux/features/cartSlice";
 
 const CartDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
-  console.log(carts);
+
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalQuantity, setTotalQunatity] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -28,6 +31,35 @@ const CartDetails = () => {
     dispatch(removeSingleItems(e));
   };
 
+  // empty cart
+  const emptyCart = () => {
+    dispatch(emptyCartItem());
+  };
+
+  // count total price
+  const total = () => {
+    let totalPrice = 0;
+    carts.map((ele, ind) => {
+      totalPrice = ele.price * ele.qnty + totalPrice;
+    });
+    setTotalPrice(totalPrice);
+  };
+
+  const countQuantity = () => {
+    let totalQuantity = 0;
+    carts.map((ele, ind) => {
+      totalQuantity = ele.qnty + totalQuantity;
+    });
+    setTotalQunatity(totalQuantity);
+  };
+
+  useEffect(() => {
+    total();
+  }, [total]);
+
+  useEffect(() => {
+    countQuantity();
+  }, [countQuantity]);
   return (
     <div className="row justify-content-center m-0">
       <div className="col-md-8 mt-5 mb-5 cardsdetails">
@@ -38,7 +70,10 @@ const CartDetails = () => {
                 Cart Calculations{carts.length > 0 ? `(${carts.length})` : ""}
               </h5>
               {carts.length > 0 ? (
-                <button className="btn btn-danger mt-0 btn-sm">
+                <button
+                  className="btn btn-danger mt-0 btn-sm"
+                  onClick={() => emptyCart()}
+                >
                   <i className="fa fa-trash-alt mr-2"></i>
                   <span>EmptyCart</span>
                 </button>
@@ -106,7 +141,11 @@ const CartDetails = () => {
                               <button
                                 className="prdct-qty-btn"
                                 type="button"
-                                onClick={() => handleSingleDecrement(data)}
+                                onClick={
+                                  data.qnty <= 1
+                                    ? () => handleDecrement(data.id)
+                                    : () => handleSingleDecrement(data)
+                                }
                               >
                                 <i className="fa fa-minus"></i>
                               </button>
@@ -141,11 +180,11 @@ const CartDetails = () => {
                     <th colSpan={3}>&nbsp;</th>
                     <th>
                       Items In Cart <span className="ml-2 mr-2">:</span>
-                      <span className="text-danger">4</span>
+                      <span className="text-danger">{totalQuantity}</span>
                     </th>
                     <th className="text-right">
                       Total Price <span className="ml-2 mr-2">:</span>
-                      <span className="text-danger">4</span>
+                      <span className="text-danger">{totalPrice}</span>
                     </th>
                   </tr>
                 </tfoot>
