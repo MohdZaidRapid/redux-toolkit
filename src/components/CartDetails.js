@@ -7,6 +7,7 @@ import {
   removeSingleItems,
   emptyCartItem,
 } from "../redux/features/cartSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const CartDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
@@ -24,6 +25,7 @@ const CartDetails = () => {
   // remove to singlecart
   const handleDecrement = (id) => {
     dispatch(removeToCart(id));
+    toast.success("Item removed from cart");
   };
 
   // remove single item
@@ -34,6 +36,7 @@ const CartDetails = () => {
   // empty cart
   const emptyCart = () => {
     dispatch(emptyCartItem());
+    toast.success("Your cart is empty");
   };
 
   // count total price
