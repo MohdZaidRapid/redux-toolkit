@@ -33,7 +33,7 @@ const CartDetails = () => {
     dispatch(removeSingleItems(e));
   };
 
-  // empty cart
+  // empty no 1 cart
   const emptyCart = () => {
     dispatch(emptyCartItem());
     toast.success("Your cart is empty");
