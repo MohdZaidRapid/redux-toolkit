@@ -6,5 +6,6 @@ import {loadStripe}
 
 loadstripe("pk")
 
-await loadstripe("pk") publishable key
-
+await loadstripe("pk") publishable key for frontend
+ stripe(sk) for backend
+ 

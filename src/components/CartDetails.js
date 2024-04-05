@@ -88,6 +88,7 @@ const CartDetails = () => {
         body: JSON.stringify(body),
       }
     );
+    
 
     const session = await response.json();
 
