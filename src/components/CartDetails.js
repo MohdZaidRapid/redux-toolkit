@@ -8,9 +8,12 @@ import {
   emptyCartItem,
 } from "../redux/features/cartSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 const CartDetails = () => {
   const { carts } = useSelector((state) => state.allCart);
+
+  console.log(carts);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantity, setTotalQunatity] = useState(0);
@@ -33,7 +36,7 @@ const CartDetails = () => {
     dispatch(removeSingleItems(e));
   };
 
-  // empty no cart cart 
+  // empty no cart cart
   const emptyCart = () => {
     dispatch(emptyCartItem());
     toast.success("Your cart is empty");
@@ -63,6 +66,40 @@ const CartDetails = () => {
   useEffect(() => {
     countQuantity();
   }, [countQuantity]);
+
+  // payment intergration
+  const makePayment = async () => {
+    const stripe = await loadStripe(
+      "pk_test_2jk5FH0hCHv4eBi2c7CXzFas00qHBfrqFR"
+    );
+
+    const body = {
+      products: carts,
+    };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    const response = await fetch(
+      "http://localhost:7000/api/create-checkout-session",
+      {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(body),
+      }
+    );
+
+    const session = await response.json();
+
+    const result = stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+    }
+  };
+
   return (
     <div className="row justify-content-center m-0">
       <div className="col-md-8 mt-5 mb-5 cardsdetails">
@@ -180,7 +217,7 @@ const CartDetails = () => {
                 <tfoot>
                   <tr>
                     <th>&nbsp;</th>
-                    <th colSpan={3}>&nbsp;</th>
+                    <th colSpan={2}>&nbsp;</th>
                     <th>
                       Items In Cart <span className="ml-2 mr-2">:</span>
                       <span className="text-danger">{totalQuantity}</span>
@@ -188,6 +225,15 @@ const CartDetails = () => {
                     <th className="text-right">
                       Total Price <span className="ml-2 mr-2">:</span>
                       <span className="text-danger">{totalPrice}</span>
+                    </th>
+                    <th className="text-right">
+                      <button
+                        className="btn btn-success"
+                        type="button"
+                        onClick={makePayment}
+                      >
+                        Checkout
+                      </button>
                     </th>
                   </tr>
                 </tfoot>
